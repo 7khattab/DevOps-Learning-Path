@@ -1,9 +1,12 @@
-FROM python:latest
+FROM python
 WORKDIR /app
 COPY requirements.txt requirements.txt
-RUN apt-get apdate && apt-get install -y \ requirements.text
-COPY . .
+RUN apt-get update && apt-get install -y python3-pip
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . . 
 EXPOSE 5000
-CMD ["python", "app.py"]
+CMD [ "python", "app.py" ]
+
+
 
 
