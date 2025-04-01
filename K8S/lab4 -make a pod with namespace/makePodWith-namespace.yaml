@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod6
+  namespace: namespace2
+spec:
+  containers:
+  - name: containerpod6
+    image: nginx
+
