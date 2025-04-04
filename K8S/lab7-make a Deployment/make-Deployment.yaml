@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: deploy-1
+spec:
+  replicas: 3
+  selector: 
+    matchLabels:
+      type: podsAPP1
+  template:
+    metadata:
+      name: pods-3
+      labels: 
+        type: podsAPP1
+    spec:
+      containers:
+        - name: cont-for-app1
+          image: nginx
+
