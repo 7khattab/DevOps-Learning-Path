@@ -1,0 +1,12 @@
+apiVersion: v1 
+kind: Service
+metadata:
+  name: service-dep1
+spec:
+  type: ClusterIP
+  selector:
+    app: deploy1
+  ports:
+    - port: 3000
+      targetPort: 80
+
