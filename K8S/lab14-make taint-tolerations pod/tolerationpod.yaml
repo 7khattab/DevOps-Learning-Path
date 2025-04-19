@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod2
+spec:
+  containers:
+   - name: container-pod2
+     image: nginx
+     ports:
+      - containerPort: 80	
+  tolerations:
+  - key: "type"       #equal to key in taint
+    operator: "Equal"
+    value: "front"    # equal to value in taint 
+    effect: "NoExecute" # ( NoSchedule - preferNoSchedule - NoExecute )     
+
