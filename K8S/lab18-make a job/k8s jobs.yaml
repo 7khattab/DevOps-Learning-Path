@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: multi-pod-job
+spec:
+  completions: 5       # default 1
+  parallelism: 2       # default 1
+  ttlSecondsAfterFinished: 30  # default NA
+  template:
+    spec:
+      containers:
+        - name: nginx 
+          image: nginx
+          command: ["echo", "Task Completed"]
+      restartPolicy: Never  # default allow
