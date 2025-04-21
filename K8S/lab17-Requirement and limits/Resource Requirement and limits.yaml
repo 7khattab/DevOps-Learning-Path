@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-withLimits
+  labels:
+    type: front
+spec:
+  containers:
+    - image: nginx
+  resources:
+    requests:
+      memory: 
+      cpu: 
+    limits:
+      memory:
+      cpu:                                
