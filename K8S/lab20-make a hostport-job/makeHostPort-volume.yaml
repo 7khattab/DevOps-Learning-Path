@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-test
+spec:
+  completions: 1
+  parallelism: 1
+  template:
+    spec:
+      containers:
+        - name: hostport
+          image: nginx
+          command: ["/bin/sh"]
+          args: ["-c", "while true; do echo $(date -u) >> /data/date.txt; sleep 5; done"]
+          volumeMounts:
+            - name: volume1
+              mountPath: /data
+      restartPolicy: Never
+      volumes:
+        - name: volume1
+          hostPath:
+            path: /home/ubuntu/Data
+            type: Directory
