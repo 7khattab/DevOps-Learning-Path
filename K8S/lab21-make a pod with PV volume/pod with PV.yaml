@@ -1,0 +1,46 @@
+# make a pod with PV volume :
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv1
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Recycle
+  hostPath:
+    path: /home/ubuntu/pvVolume
+    
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc1
+spec:
+  volumeName: pv1
+  resources:
+    requests:
+      storage: 3Gi
+  accessModes:
+    - ReadWriteOnce
+---
+apiVersion: v1 
+kind: Pod 
+metadata:
+  name: pod26
+spec:
+  containers:
+   - name: nginx
+     image: nginx
+     command: ["/bin/sh"]
+     args: ["-c", "while true; do echo $(date -u) >> /data/date.txt; sleep 5; done"]     
+     volumeMounts:
+      - name: volume1
+        mountPath: /data
+  volumes:
+   - name: volume1
+     persistentVolumeClaim:
+       claimName: pvc1
+    
