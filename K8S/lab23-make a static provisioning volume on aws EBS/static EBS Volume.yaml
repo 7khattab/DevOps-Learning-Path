@@ -1,0 +1,48 @@
+# make a vloume provisioning with amazon EBS
+
+# 1- PV
+apiVersion: v1 
+kind: PersistentVolume
+metadata:
+  name: pv1
+spec:
+  capacity: 
+    storage: 5Gi
+  accessModes: 
+   - ReadWriteOnce
+  csi:
+    driver: ebs.csi.aws.com
+    fsType: ext4
+    vloumeHandle: # vol-xxxxxxx
+---
+# 2- PVC
+apiVersion: v1 
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc1
+spec:
+  volumeName: pv1
+  accessMode: 
+   - ReadWriteOnce
+  resources:
+    requests:
+      storage: 4Gi
+---
+# 3- Pod
+apiVersion: v1 
+kind: Pod
+metadata:
+  name: pod1
+spec:
+  containers:
+   - name: nginx
+     image: nginx
+     command: ["/bin/sh"]
+     args: ["-c", "while true; do echo $(date -u) >> /data/date.txt; sleep 5; done"] 
+     vloumeMount:
+      - name: volume1
+        mountPath: /data
+  volumes:
+   - name: volume1
+     persistentVolumeClaim:
+       claimName: pvc1                    
