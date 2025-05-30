@@ -1,0 +1,45 @@
+# make a dynamic volume provisioning with AWS EBS
+
+# install AWS EBS CSI Driver
+# kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-1.27"
+
+# 1. StorageClass
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: sc1
+provisioner: ebs.csi.aws.com
+volumeBindingMode: WaitForFirstConsumer
+reclaimPolicy: Retain
+---
+# 2. PVC
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mypvc
+spec:
+  storageClassName: sc1
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+# 3. Pod
+apiVersion: v1
+kind: Pod
+metadata:
+  name: podtest
+spec:
+  containers:
+   - name: nginx
+     image: nginx
+     command: ["/bin/sh"]
+     args: ["-c", "while true; do echo $(date -u) >> /data/date.txt; sleep 5; done"]
+     volumeMounts:
+      - name: volume1
+        mountPath: /data
+  volumes:
+   - name: volume1
+     persistentVolumeClaim:
+       claimName: mypvc
