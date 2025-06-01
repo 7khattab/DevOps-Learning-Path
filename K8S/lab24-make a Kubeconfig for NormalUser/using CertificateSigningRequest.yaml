@@ -1,0 +1,32 @@
+# 1-) Generate a private key
+openssl genrsa -out user1.key 2048
+
+# 2-) Create a Certificate Signing Request (CSR)
+openssl req -new -key user1.key -out user1.csr -subj "/CN=user1"
+
+# 3-) Convert the CSR file to base64 (no line breaks) - copy this for the YAML
+cat user1.csr | base64 | tr -d '\n'
+# 4-) Create a Kubernetes CSR YAML file (e.g., user1-csr.yaml):
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: user1
+spec:
+  request: <paste here the base64 output from previous step>
+  signerName: kubernetes.io/kube-apiserver-client
+  expirationSeconds: 31536000   # 1 year
+  usages:
+  - client auth
+# 5-) Apply the CSR resource to the cluster:
+kubectl apply -f user1-csr.yaml
+# 6-) Approve the CSR:
+kubectl certificate approve user1
+# 7-) Extract the signed certificate:
+kubectl get csr user1 -o jsonpath='{.status.certificate}' | base64 -d > user1.crt
+# 8-) Create the kubeconfig for the user:
+#1-make a user
+kubectl config set-credentials user1 --client-certificate=user1.crt --client-key=user1.key
+# 2-make a context 
+kubectl config set-context user1-context --cluster=kubernetes --user=user1
+# 3-make a current-context
+kubectl config use-context user1-context

@@ -1,0 +1,15 @@
+# 1-) make a private key
+openssl genrsa -out user1.ky 2048
+# 2-) make a CSR certificate signing request
+openssl req -new -key user1.ky -out user1.csr -subj "/CN=user1"
+# 3-) using the CA to signature the CSR 
+openssl x509 -req -in user1.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out user1.crt -day 365
+# 4-) make a kubeconfig file 
+# 1-make a user
+kubectl config set-credentials user1 --client-certificate=user1.crt --client-key=user1.key
+# 2-make a context 
+kubectl config set-context user1-context --cluster=kubernetes --user=user1
+# 3-make a current-context
+kubectl config use-context user1-context
+
+
