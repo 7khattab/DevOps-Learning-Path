@@ -1,0 +1,31 @@
+# ClusterRole & ClusterRoleBinding
+
+# 1)  ClusterRole
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: cr-1
+rules:
+- apiGroups: [""]      
+  resources: ["pods", "services"]
+  verbs: ["get", "list", "watch", "create", "delete"]
+
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "watch", "create", "delete"]
+---
+# 2) ClusterRoleBinding
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: crb-1
+subjects:
+- kind: User
+  name: khattab      
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: cr-1
+  apiGroup: rbac.authorization.k8s.io
