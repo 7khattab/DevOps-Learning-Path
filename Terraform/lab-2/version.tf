@@ -20,12 +20,12 @@ resource "aws_iam_user_policy" "user_policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Action   = [
-          "ec2:AllocateAddress",        # تخصيص Elastic IP
-          "ec2:AssociateAddress",       # ربط Elastic IP بـ NAT Gateway
-          "ec2:CreateNatGateway",      # إنشاء NAT Gateway
-          "ec2:DescribeAddresses",     # عرض Elastic IP
-          "ec2:DescribeNatGateways"    # عرض NAT Gateway
+        Action = [
+          "ec2:AllocateAddress",    # تخصيص Elastic IP
+          "ec2:AssociateAddress",   # ربط Elastic IP بـ NAT Gateway
+          "ec2:CreateNatGateway",   # إنشاء NAT Gateway
+          "ec2:DescribeAddresses",  # عرض Elastic IP
+          "ec2:DescribeNatGateways" # عرض NAT Gateway
         ]
         Effect   = "Allow"
         Resource = "*"
@@ -37,7 +37,7 @@ resource "aws_iam_user_policy" "user_policy" {
 # configure the VPC 
 
 resource "aws_vpc" "test" {
-  cidr_block       = "10.0.0.0/16"
+  cidr_block = "10.0.0.0/16"
   tags = {
     Name = "test"
   }
@@ -46,12 +46,12 @@ resource "aws_vpc" "test" {
 # configure the subnet
 
 resource "aws_subnet" "public" {
-  vpc_id     = aws_vpc.test.id
-  cidr_block = "10.0.1.0/24"
+  vpc_id                  = aws_vpc.test.id
+  cidr_block              = "10.0.1.0/24"
   map_public_ip_on_launch = true
   tags = {
     Name = "public subnet"
-    
+
   }
 }
 
@@ -90,7 +90,7 @@ resource "aws_route_table_association" "a" {
 # configure the elastic ip 
 resource "aws_eip" "lb" {
 
-  domain   = "vpc"
+  domain = "vpc"
 }
 
 
@@ -110,17 +110,17 @@ resource "aws_nat_gateway" "nat" {
 
 # Display the Elastic IP
 output "eip_display" {
-    value = aws_eip.lb
+  value = aws_eip.lb
 }
 
 # Display the user_name arn
 output "user_display" {
-    value = aws_iam_user.Tera_user.arn
-  
+  value = aws_iam_user.Tera_user.arn
+
 }
 
 # Diapaly  NAT gateway ID
 output "nat_gateway_display" {
-    value = aws_nat_gateway.nat
-  
+  value = aws_nat_gateway.nat
+
 }
