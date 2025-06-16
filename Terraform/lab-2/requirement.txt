@@ -1,6 +1,7 @@
+1. Create an IAM user account and assign a police 
 
-1. Create a new NAT gateway and a new Elastic IP address, and assign it to the newly created NAT gateway.
+2. Create a new NAT gateway and a new Elastic IP address, and assign it to the newly created NAT gateway.
 
-2. Display the Elastic IP (EIP), the dolfined _user arn & the NAT gateway ID on your terminal screen.
+3. Display the Elastic IP (EIP), the user_name arn & the NAT gateway ID on your terminal screen.
 
-3. Destroy all your Terraform-deployed infrastructure.
+4. Destroy all your Terraform-deployed infrastructure.
