@@ -70,13 +70,13 @@ resource "aws_instance" "terraform" {
 =======
 # Configure the AWS Provider
 provider "aws" {
-  region = "us-east-1"
+  region  = "us-east-1"
   profile = "terraform-user"
 }
 
 # configure the VPC 
 resource "aws_vpc" "test" {
-  cidr_block       = "10.0.0.0/16"
+  cidr_block = "10.0.0.0/16"
   tags = {
     Name = "test"
   }
@@ -87,7 +87,7 @@ resource "aws_subnet" "public" {
   vpc_id     = aws_vpc.test.id
   cidr_block = "10.0.1.0/24"
   tags = {
-    Name = "public subnet"
+    Name                    = "public subnet"
     map_public_ip_on_launch = true
   }
 }
