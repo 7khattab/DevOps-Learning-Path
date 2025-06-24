@@ -1,8 +1,6 @@
 # Ignore AWS credentials file
 .aws/
 
-# Ignore terraform variable files that may contain sensitive data
-*.tfvars
 
 # Ignore Terraform files
 .terraform/
