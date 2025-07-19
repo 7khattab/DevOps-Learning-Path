@@ -67,6 +67,4 @@ Each folder in this repository is a **lab** that reflects a specific concept in 
 git clone https://github.com/7khattab/k8s-labs.git
 cd k8s-labs
 
-🙌 Connect
-If you're learning DevOps or want to discuss K8s labs or improvements, feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/mohamed-7khattab) or open an issue here!
 
